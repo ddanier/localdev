@@ -6,8 +6,8 @@ services:
     labels:
       # Enable traefik, by default traefik will not expose any services
       - traefik.enable=true
-      # Setup the correct port to be used by treafik to access the service
-      - traefik.http.services.${COMPOSE_PROJECT_NAME}_www.loadbalancer.server.port=80
+      # Setup the correct port to be used by treafik to access the service, IF REQUIRED
+      #- traefik.http.services.${COMPOSE_PROJECT_NAME}_www.loadbalancer.server.port=80
     # Add the required networks to your service
     networks:
       - default

@@ -146,13 +146,14 @@ services:
     labels:
       # Enable traefik, by default traefik will not expose any services
       - traefik.enable=true
-      # Setup the correct port to be used by treafik to access the service
-      - traefik.http.services.${COMPOSE_PROJECT_NAME}_www.loadbalancer.server.port=80
+      # Setup the correct port to be used by treafik to access the service, IF REQUIRED
+      #- traefik.http.services.${COMPOSE_PROJECT_NAME}_www.loadbalancer.server.port=80
 ```
 
 You may also setup HTTP, authentication, some domain other than the default and tons of other
 things using just labels. See the [traefik documentation](https://doc.traefik.io/traefik/) for
-details.
+details. I added a configuration for a manual port setup in the example above. Note you will only
+need this if your container does not `EXPOSE` the port you want to use.
 
 With just the label your project will still not be accessible. This is due to the fact that docker/podman
 will create a separate network for all of your projects. So the `traefik` container will use a different
@@ -188,4 +189,4 @@ If you now start your project using `docker compose up` or `podman compose up` y
 access your project using the domain `www.example.localdev` using your browser:
 [http://www.example.localdev/](http://www.example.localdev/)
 
-**Note:** This setup is also projived in the `example` directory.
+**Note:** This setup is also provided in the `example` directory.
