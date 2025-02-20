@@ -1,0 +1,30 @@
+name: traefik
+
+services:
+  traefik:
+    image: docker.io/library/traefik:3.3
+    restart: always
+    security_opt:
+      - label=type:container_runtime_t
+    volumes:
+      - $PODMAN_SOCKET:/var/run/docker.sock:z
+      - ./traefik.toml:/traefik.toml
+      - ./ssl.toml:/ssl.toml
+      - ./cert:/cert
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    networks:
+      - gateway
+    labels:
+      - traefik.enable=true
+      - traefik.backend=traefik
+      - traefik.docker.network=traefik_gateway
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}_traefik.rule=Host(`traefik.localdev`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}_traefik_HTTPS.rule=Host(`traefik.localdev`)
+      - traefik.http.routers.${COMPOSE_PROJECT_NAME}_traefik_HTTPS.tls=true
+      - traefik.http.services.${COMPOSE_PROJECT_NAME}_traefik.loadbalancer.server.port=8080
+
+networks:
+  gateway:

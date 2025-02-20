@@ -1,0 +1,5 @@
+/nurfile.local
+/cert/*.crt
+/cert/*.key
+/cert/*.srl
+/cert/*.csr

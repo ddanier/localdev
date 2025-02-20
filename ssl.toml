@@ -1,0 +1,4 @@
+[[tls.certificates]]
+  certFile = "/cert/localdev.crt"
+  keyFile = "/cert/localdev.key"
+  stores = ["default"]

@@ -1,0 +1,26 @@
+[entryPoints]
+  [entryPoints.http]
+    address = ":80"
+  [entryPoints.https]
+    address = ":443"
+
+[providers]
+  [providers.docker]
+    watch = true
+    exposedByDefault = false
+    network = "traefik_gateway"
+    defaultRule = "Host(`{{ index .Labels \"com.docker.compose.service\" | normalize }}.{{ index .Labels \"com.docker.compose.project\" | normalize }}.localdev`)"
+
+  [providers.file]
+    watch = true
+    filename = "./ssl.toml"
+
+[api]
+  insecure = true
+  dashboard = true
+
+[accessLog]
+  format = "json"
+
+[log]
+  format = "json"

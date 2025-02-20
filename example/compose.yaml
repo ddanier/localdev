@@ -1,0 +1,22 @@
+name: example  # Set the COMPOSE_PROJECT_NAME to 'example', just for this documentation
+
+services:
+  www:
+    image: docker.io/nginx
+    labels:
+      # Enable traefik, by default traefik will not expose any services
+      - traefik.enable=true
+      # Setup the correct port to be used by treafik to access the service
+      - traefik.http.services.${COMPOSE_PROJECT_NAME}_www.loadbalancer.server.port=80
+    # Add the required networks to your service
+    networks:
+      - default
+      - traefik_gateway
+
+networks:
+  # Keep the original default network, this is required if your services need to reach each other
+  default:
+  # Add the additional `traefik_gateway` network, but mark it as external so the existing network
+  # will be re-used
+  traefik_gateway:
+    external: true

@@ -1,0 +1,51 @@
+def generate_cert [] {
+    if ("cert/localdev.crt" | path exists) {
+        print "Cert exists, no update"
+        print "(clear cert/ content if you want to regenerate)"
+        return
+    }
+
+    use "cert/generate.nu"
+
+    cd cert;
+    generate
+}
+
+# Init everything
+let has_podman = (which podman | is-not-empty)
+let has_docker = (which docker | is-not-empty)
+let is_linux = ((sys host | get name) == "Linux")
+let is_mac = ((sys host | get name) == "Darwin")
+let is_windows = ((sys host | get name) == "Windows")
+
+# TODO: Define using some logic based on all those boolean flags above
+let podman_socket = "/run/podman/podman.sock"
+let compose_call = ["podman", "compose"]
+
+def --wrapped run-compose [...args] {
+    with-env { PODMAN_SOCKET: $podman_socket } {
+        run-external ...$compose_call ...$args
+    }
+}
+
+def "nur install" [] {
+    generate_cert
+
+    run-compose pull
+}
+
+def "nur cert" [] {
+    generate_cert
+}
+
+def "nur update" [] {
+    run-compose pull
+}
+
+def "nur run" [] {
+    run-compose up -d
+}
+
+def "nur halt" [] {
+    run-compose down
+}
