@@ -10,7 +10,7 @@ the [nur documentation](https://nur-taskrunner.github.io/docs/) for details.
 
 ## Help wanted
 
-I developed and tested this setup using POdman Desktop on macOS. I would love to get PRs for
+I developed and tested this setup using Podman Desktop on macOS. I would love to get PRs for
 other setups, feel free to open an issue or a PR about that. Improvements are always welcome.
 
 # Installation
